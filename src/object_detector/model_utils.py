@@ -43,7 +43,7 @@ class SPPF(nn.Module): # Spatial Pyramid Pooling Fast
         return self.conv2(torch.cat([x, y1, y2, y3], dim=1))
     
 
-class C2F(nn.Module):
+class C2F(nn.Module): # Cross‑Stage Partial “fused” block
     def __init__(self, in_channels, out_channels, num_blocks = 1, shortcut = False, expansion=0.5):
         super(C2F, self).__init__()
 

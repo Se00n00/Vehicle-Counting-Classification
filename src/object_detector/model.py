@@ -29,20 +29,20 @@ class config:
 
 class YOLOv8Backbone(nn.Module):
     def __init__(self, config):
-        super.__init__()
+        super(YOLOv8Backbone, self).__init__()
 
-        self.conv0 = Conv(in_channels=3, out_channels=64*config.w, stride=2, padding=1)
-        self.conv1 = Conv(in_channels=64, out_channels=128*config.w, stride=2, padding=1)
-        self.C2f2 = C2F(shortcut=True, n=3*config.d)
-        self.conv3 = Conv(in_channels=128, out_channels=256*config.w, stride=2, padding=1)
-        self.C2f4 = C2F(shortcut=True, n=6*config.d)
-        self.conv5 = Conv(in_channels=256, out_channels=512*config.w, stride=2, padding=1)
-        self.C2f6 = C2F(shortcut=True, n=6*config.d)
-        self.conv7 = Conv(in_channels=512, out_channels=512*config.w*config.r, stride=2, padding=1)
-        self.C2f8 = C2F(shortcut=True, n=3*config.d)
+        self.conv0 = Conv(3, int(64*config.w), stride=2)
+        self.conv1 = Conv(in_channels=int(64*config.w), out_channels=int(128*config.w), stride=2)
+        self.C2f2 = C2F(int(128*config.w), int(128*config.w), shortcut=True, num_blocks=int(3*config.d))
+        self.conv3 = Conv(in_channels=int(128*config.w), out_channels=int(256*config.w), stride=2)
+        self.C2f4 = C2F(int(256*config.w), int(256*config.w), shortcut=True, num_blocks=int(6*config.d))
+        self.conv5 = Conv(in_channels=int(256*config.w), out_channels=int(512*config.w), stride=2)
+        self.C2f6 = C2F(int(512*config.w), int(512*config.w), shortcut=True, num_blocks=int(6*config.d))
+        self.conv7 = Conv(in_channels=int(512*config.w), out_channels=int(512*config.w*config.r), stride=2)
+        self.C2f8 = C2F(int(512*config.w*config.r), int(512*config.w*config.r), shortcut=True, num_blocks=int(3*config.d))
 
 
-        self.sppf = SPPF()
+        self.sppf = SPPF(int(512*config.w*config.r), int(512*config.w*config.r))
     
     def forward(self, x):
         c2f2 = self.C2f2(self.conv1(self.conv0(x)))

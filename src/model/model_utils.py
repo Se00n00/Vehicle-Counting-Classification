@@ -8,6 +8,24 @@ class condig:
     c_in = 10
     c_out = 10
 
+class Detect(nn.Module):
+    def __init__(self, in_channels, out_channels, numclasses, reg_max):
+        super(Detect, self).__init__()
+
+        self.detect1 = nn.Sequential(
+            Conv(in_channels, out_channels),
+            Conv(in_channels, out_channels),
+            nn.Conv2d(in_channels, 4*reg_max, kernel_size=1, stride=1, padding=0)
+        )
+
+        self.detect2 = nn.Sequential(
+            Conv(in_channels, out_channels),
+            Conv(in_channels, out_channels),
+            nn.Conv2d(in_channels, numclasses, kernel_size=1, stride=1, padding=0)
+        )
+    
+    def forward(self, x):
+        return self.detect1(x), self.detect2(x)
 
 class Conv(nn.Module):
     def __init__(self, in_channels, out_channels, kernel_size=3, stride=1, padding=1):

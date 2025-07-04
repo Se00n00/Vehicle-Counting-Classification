@@ -1,0 +1,4 @@
+"train": "/kaggle/input/face-detection-dataset/images/train",
+"val": "/kaggle/input/face-detection-dataset/images/val",
+"nc": 3,
+"names": [""]
